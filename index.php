@@ -22,7 +22,7 @@ $f3->route('POST /login-with-google-play', function($f3, $params) {
             InsertNewPlayer($loginType, $email, '');
         }
         $playerAuthDb = new PlayerAuth();
-        $playerAuth = $playerAuthDb->load(array(
+        $playerAuth = $playerAuthDb->findone(array(
             'username = ? AND type = ?',
             $email,
             $loginType
