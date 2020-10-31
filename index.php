@@ -1,8 +1,7 @@
 <?php
-$f3->route('POST /login-with-google-play', function($f3, $params) {
+$actions['login-with-google-play'] = function($params, $postBody) {
     // Google Play login type is 11
     $loginType = 11;
-    $postBody = json_decode(urldecode($f3->get('BODY')), true);
     $idToken = $postBody['idToken'];
     $url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=".$idToken;
     $ch = curl_init();
@@ -37,5 +36,12 @@ $f3->route('POST /login-with-google-play', function($f3, $params) {
         $output['player'] = CursorToArray($player);
     }
     echo json_encode($output);
-});
+};
+
+if (!\Base::instance()->get('enable_action_request_query')) {
+    $f3->route('POST /login-with-google-play', function($f3, $params) {
+        DoPostAction('login-with-google-play', $f3, $params);
+    });
+}
+
 ?>
